@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<Button  
-    android:id="@+id/MyButton"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/Hello"
-    />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="374.0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1">
+        <Button
+            android:id="@+id/GetWeatherbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Weather" />
+        <Button
+            android:text="GPS Weather"
+            android:layout_width="191.0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnGPS"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="100dp" />
+    </LinearLayout>
+    <TextView
+        android:text="Current Weather"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvCurrentWeather"
+        android:textColor="@android:color/holo_green_light" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/place_prompt"
+        android:id="@+id/spCity" />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTemperature"
+        android:background="@android:color/holo_blue_light" />
+    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTempChange"
+        android:background="@android:color/holo_purple"
+        android:visibility="invisible" />
+    <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Image" />
+    <ScrollView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvAllText"
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/darker_gray" />
+    </ScrollView>
 </LinearLayout>
