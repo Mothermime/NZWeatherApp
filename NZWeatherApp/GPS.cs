@@ -56,10 +56,54 @@ namespace NZWeatherApp
             InitializeLocationManager();
         }
 
-        private void btnGetGPSWeather_Click(object sender, EventArgs e)
+       async private void btnGetGPSWeather_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+           if (CurrentLocation == null)
+           {
+               FullText.Text = "Can't determine the current address.  Try again in a few minutes.";
+               return;
+           }
+           Address address = await ReverseGeocodeCurrentLocation();
+            DisplayAddress(address);
         }
+
+        private void DisplayAddress(Address address)
+        {
+            if (address != null)
+            {
+               StringBuilder deviceAddress = new StringBuilder();
+                for (int i = 0; i < address.MaxAddressLineIndex; i++)
+                {
+                    deviceAddress.AppendLine(address.GetAddressLine(i));
+                }
+                FullText.Text = deviceAddress.ToString();
+            }
+            else
+            {
+                FullText.Text = "unable to determine the address. Try again in a few minutes.";
+            }
+        }
+
+        private async Task<Address> ReverseGeocodeCurrentLocation()
+        {
+            Geocoder geocoder = new Geocoder(this);
+            //get a list of addresses from the current location, get a max of 10 adddresses   
+            IList<Address> addressList =
+                await geocoder.GetFromLocationAsync(CurrentLocation.Latitude, CurrentLocation.Longitude, 10);
+            //get the first address, yet its not necessarily the correct one…           
+            Address address = addressList.FirstOrDefault();
+            return address;
+        }
+
+        //display the address that you have got
+      
+            
+                
+            
+        
+
+        
+
 
         void InitializeLocationManager()
         {
@@ -78,7 +122,8 @@ namespace NZWeatherApp
             locationProvider = locMgr.GetBestProvider(criteriaForLocationService, true);
             Toast.MakeText(this, "Using " + locationProvider, ToastLength.Short).Show();
 
-        }  async private void BtnGPS_Click(object sender, EventArgs e)
+        }
+        async private void BtnGPS_Click(object sender, EventArgs e)
         {
 
             if (CurrentLocation == null)
@@ -139,32 +184,17 @@ namespace NZWeatherApp
             throw new NotImplementedException();
         }
 
-        async Task<Address> ReverseGeocodeCurrentLocation()
-        {
-            Geocoder geocoder = new Geocoder(this);
-            IList<Address> addressList =
-                await geocoder.GetFromLocationAsync(CurrentLocation.Latitude, CurrentLocation.Longitude, 10);
+        //async Task<Address> ReverseGeocodeCurrentLocation()
+        //{
+        //    Geocoder geocoder = new Geocoder(this);
+        //    IList<Address> addressList =
+        //        await geocoder.GetFromLocationAsync(CurrentLocation.Latitude, CurrentLocation.Longitude, 10);
 
-            Address address = addressList.FirstOrDefault();
-            return address;
-        }
+        //    Address address = addressList.FirstOrDefault();
+        //    return address;
+        //}
 
-        void DisplayAddress(Address address)
-        {
-            if (address != null)
-            {
-                StringBuilder deviceAddress = new StringBuilder();
-                for (int i = 0; i < address.MaxAddressLineIndex; i++)
-                {
-                    deviceAddress.AppendLine(address.GetAddressLine(i));
-                }
-                tvLocationlbl.Text = deviceAddress.ToString();
-            }
-            else
-            {
-                tvLocationlbl.Text = "Unable to determine the address. Try again in a few minutes.";
-            }
-        }
+      
 
 
 
@@ -241,25 +271,7 @@ namespace NZWeatherApp
     //            //A constant indicating an approximate accuracy
     //            Accuracy = Accuracy.Coarse,
     //            PowerRequirement = Power.Medium
-        public void OnLocationChanged(Location location)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnProviderDisabled(string provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnProviderEnabled(string provider)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnStatusChanged(string provider, Availability status, Bundle extras)
-        {
-            throw new NotImplementedException();
-        }
+      
     
         }
 }
