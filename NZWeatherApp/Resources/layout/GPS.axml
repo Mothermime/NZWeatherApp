@@ -85,6 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tvLocationlbl" />
+        <EditText
+            android:layout_width="208.5dp"
+            android:layout_height="42.5dp"
+            android:id="@+id/txtLocation" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

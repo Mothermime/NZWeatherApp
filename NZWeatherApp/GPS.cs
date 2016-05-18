@@ -9,18 +9,24 @@ using Android.Content;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
+using Android.Test.Suitebuilder.Annotation;
 using Android.Views;
 using Android.Widget;
+using Java.Net;
+using Newtonsoft.Json;
+using Android.Text;
 
 namespace NZWeatherApp
 {
     [Activity(Label = "GPS")]
     public class GPS : Activity, ILocationListener
-    {// Set our view from the "main" layout resource 
+    {
+// Set our view from the "main" layout resource 
         private Button btnGetGPSWeather;
         private Button btnLocalWeather;
         private EditText txtLat;
         private EditText txtLong;
+        private EditText txtLocation;
         private TextView tvLocationlbl;
         private TextView tvTemplbl;
         private TextView tvHumiditylbl;
@@ -30,7 +36,10 @@ namespace NZWeatherApp
         private string Lat;
         private string Long;
         private string locationProvider;
-      //Json new Json
+        
+        public string URL { get; set; }
+
+        //Json new Json
         private Location CurrentLocation;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -41,42 +50,50 @@ namespace NZWeatherApp
             SetContentView(Resource.Layout.GPS);
             // Get the latitude/longitude EditBox and button resources:
             //Link in all the different components
-            EditText Lat = FindViewById<EditText>(Resource.Id.txtLat);
-            EditText Long = FindViewById<EditText>(Resource.Id.txtLong);
-            TextView location = FindViewById<TextView>(Resource.Id.tvLocationlbl);
-            TextView temperature = FindViewById<TextView>(Resource.Id.tvTemplbl);
-            TextView conditions = FindViewById<TextView>(Resource.Id.tvConditionslbl);
-            TextView humidity = FindViewById<TextView>(Resource.Id.tvHumiditylbl);
+            //var root = JsonConvert.DeserializeObject<RootObject>(TempDataJson);
+           txtLat = FindViewById<EditText>(Resource.Id.txtLat);
+             txtLong = FindViewById<EditText>(Resource.Id.txtLong);
+           txtLocation = FindViewById<EditText>(Resource.Id.txtLocation);
+            tvLocationlbl = FindViewById<TextView>(Resource.Id.tvLocationlbl);
+            tvTemplbl = FindViewById<TextView>(Resource.Id.tvTemplbl);
+            Conditions = FindViewById<TextView>(Resource.Id.tvConditionslbl);
+            tvHumiditylbl = FindViewById<TextView>(Resource.Id.tvHumiditylbl);
             FullText = FindViewById<TextView>(Resource.Id.FullText);
+
             // LocationManager locMgr;
             btnGetGPSWeather = FindViewById<Button>(Resource.Id.btnGetGPSWeather);
             btnLocalWeather = FindViewById<Button>(Resource.Id.btnLocalWeather);
             // btnLocalWeather.Click += btnLocalWeather_Click;
             btnGetGPSWeather.Click += btnGetGPSWeather_Click;
             InitializeLocationManager();
-        }
+          
+    }
 
-       async private void btnGetGPSWeather_Click(object sender, EventArgs e)
+        private async void btnGetGPSWeather_Click(object sender, EventArgs e)
         {
-           if (CurrentLocation == null)
-           {
-               FullText.Text = "Can't determine the current address.  Try again in a few minutes.";
-               return;
-           }
-           Address address = await ReverseGeocodeCurrentLocation();
+            if (CurrentLocation == null)
+            {
+                FullText.Text = "Can't determine the current address.  Try again in a few minutes.";
+                return;
+            }
+            Address address = await ReverseGeocodeCurrentLocation();
             DisplayAddress(address);
+            DownloadGPSTemp();
+           
         }
+        
 
         private void DisplayAddress(Address address)
         {
             if (address != null)
             {
-               StringBuilder deviceAddress = new StringBuilder();
+                StringBuilder deviceAddress = new StringBuilder();
                 for (int i = 0; i < address.MaxAddressLineIndex; i++)
                 {
                     deviceAddress.AppendLine(address.GetAddressLine(i));
                 }
                 FullText.Text = deviceAddress.ToString();
+                FullText.TextSize = 20;
             }
             else
             {
@@ -96,19 +113,10 @@ namespace NZWeatherApp
         }
 
         //display the address that you have got
-      
-            
-                
-            
-        
-
-        
-
-
-        void InitializeLocationManager()
+        private void InitializeLocationManager()
         {
             //The LocationManager class will listen for GPS updates from the device and notify the application by way of events. In this example we ask Android for the best location provider that matches a given set of Criteria and provide that provider to LocationManager.
-            locMgr = (LocationManager)GetSystemService(LocationService);
+            locMgr = (LocationManager) GetSystemService(LocationService);
 
 
             //Define a Criteria for the best location provider we don’t just use GPS but also WiFi and Cell Towers 
@@ -123,20 +131,19 @@ namespace NZWeatherApp
             Toast.MakeText(this, "Using " + locationProvider, ToastLength.Short).Show();
 
         }
-        async private void BtnGPS_Click(object sender, EventArgs e)
-        {
 
-            if (CurrentLocation == null)
-            {
-              FullText.Text = "Can't determine the current address. Try again in a few minutes.";
-                return;
-            }
+        //private async void BtnGPS_Click(object sender, EventArgs e)
+        //{
+        //    if (CurrentLocation == null)
+        //    {
+        //        FullText.Text = "Can't determine the current address. Try again in a few minutes.";
+        //        return;
+        //    }
 
-            Address address = await ReverseGeocodeCurrentLocation();
-            DisplayAddress(address);
+        //    Address address = await ReverseGeocodeCurrentLocation();
+        //    DisplayAddress(address);
+        //}
 
-
-        }
         protected override void OnResume()
         {
             base.OnResume();
@@ -145,10 +152,11 @@ namespace NZWeatherApp
             locMgr.RequestLocationUpdates(locationProvider, 0, 0, this);
             locMgr = GetSystemService(Context.LocationService) as LocationManager;
         }
+
         //https://developer.xamarin.com/recipes/android/os_device_resources/gps/get_current_device_location/
         //http://developer.android.com/guide/topics/location/strategies.html
 
-       
+
         //ILocationListener methods
         void ILocationListener.OnLocationChanged(Location location)
         {
@@ -160,12 +168,14 @@ namespace NZWeatherApp
         {
             Lat = CurrentLocation.Latitude.ToString();
             Long = CurrentLocation.Longitude.ToString();
-            Toast.MakeText(this, "Lat " + Lat + "Lon " + Long, ToastLength.Long).Show();
+           // Toast.MakeText(this, "Lat " + Lat + "Lon " + Long, ToastLength.Long).Show();
             //json  http://api.worldweatheronline.com/free/v1/weather.ashx?q=-43.526429,172.637637&format=json&num_of_days=1&key=4da7nmph2t6yb76hckfbe4ae
             //xml  http://api.worldweatheronline.com/free/v1/weather.ashx?q=" & myGPS.Lat & "," & myGPS.Lon & "&format=xml&num_of_days=1&key=4da7nmph2t6yb76hckfbe4ae
-           //txtLat.Text = "Lat " + Lat;
-           // txtLong.Text = "Long " + Long; // just so we know it exists
-            FullText.Text = "Lat " + Lat + "Long " + Long;
+            txtLat.Text =  Lat;
+            txtLong.Text =  Long; // just so we know it exists
+            //txtLocation.Text = "Lat " + Lat + "Long " + Long;
+            //FullText.TextSize = 30;
+
         }
 
         //Turn off GPS?
@@ -194,7 +204,7 @@ namespace NZWeatherApp
         //    return address;
         //}
 
-      
+
 
 
 
@@ -205,8 +215,46 @@ namespace NZWeatherApp
 
         }
 
+        public void DownloadGPSTemp()
+        {
+            try
+            {
+           //here is out URL with our Lat and Long stuck into it
+             URL =  "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + CurrentLocation.Latitude + "," + CurrentLocation.Longitude + "&format=json&num_of_days=1&key=4da7nmph2t6yb76hckfbe4ae";
+                    //downloads the string and returns it 
+                    var webaddress = new Uri(URL);
+                    //Get the URL change it to a Uniform Resource Identifier
+                    var webclient = new WebClient(); //Make a webclient to dl stuff  
+                    webclient.DownloadStringAsync(webaddress); //dl the website 
+                   webclient.DownloadStringCompleted += webclient_DownloadJSONCompleted; //Connect a method to the run when the DL is finished,              
+                } catch (Exception e) {  //Run an error message if it doesn’t work  
+                var toast = string.Format("DL not working? " + e.Message); Toast.MakeText(this, toast, ToastLength.Long).Show();
+            }          }
+        private void webclient_DownloadJSONCompleted(object Sender, DownloadStringCompletedEventArgs e)
+        {
+            string TempDataJSON = e.Result;
+            //We need to parse the class that has Data in it public Data data { get; set; } in this case its called Root, but it might not be. 
+            var root = JsonConvert.DeserializeObject<RootObject>(TempDataJSON);
+            //then we pass out the data into the classes we want to use. Its coming out as a list, so we get the first entry [0]
+            CurrentCondition currentCondition = root.data.current_condition[0];
+            Weather weather = root.data.weather[0];
 
-        //// When the user clicks the button ... 
+            //then we can do whatever we like with it. 
+            FullText.Text = "Current Temp = " + currentCondition.temp_C +"Min " + weather.tempMinC + " Max " + weather.tempMaxC + " Wind " + currentCondition.windspeedKmph;
+
+            //Can we put HTML in a label?  https://forums.xamarin.com/discussion/56484/need-to-put-htmlinto-a-label           
+            //  AllText.TextFormatted = Html.FromHtml("<ul>Current Temp = " + currentCondition.temp_C + "</ul>");        
+
+            string text = "<bold>Current Temp = " + currentCondition.temp_C + "</bold>";
+             
+            //FullText.SetText(Html.FromHtml(text), TextView.BufferType.Normal);
+            FullText.TextSize = 20;
+        }  
+
+        }
+    }
+
+    //// When the user clicks the button ... 
         //btnGetWeather.Click += async (sender, e) =>
         //    {
         //      //  Get the latitude and longitude entered by the user and create a query.
@@ -272,6 +320,5 @@ namespace NZWeatherApp
     //            Accuracy = Accuracy.Coarse,
     //            PowerRequirement = Power.Medium
       
-    
-        }
-}
+   
+        
