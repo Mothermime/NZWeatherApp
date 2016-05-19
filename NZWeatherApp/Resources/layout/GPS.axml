@@ -30,44 +30,30 @@
     <LinearLayout
         android:orientation="horizontal"
         android:id="@+id/longSection"
-        android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp">
         <TextView
-            android:text="Enter Longitude"
+            android:text="Longitude"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="140dp"
-            android:layout_height="50dp"
-            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
             android:id="@+id/tvLonglbl" />
-        <EditText
-            android:text="-122.5"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/txtLong" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:id="@+id/latSection">
+        android:id="@+id/latSection"
+        android:layout_marginLeft="40dp">
         <TextView
-            android:text="Enter Latitude"
+            android:text="Latitude"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_width="140dp"
-            android:layout_height="40dp"
-            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
             android:id="@+id/tvLatlbl" />
-        <EditText
-            android:text="47.7"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/txtLat" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"

@@ -1,0 +1,31 @@
+﻿1>------ Build started: Project: NZWeatherApp, Configuration: Debug Any CPU ------
+1>    Processing: obj\Debug\res\layout\gps.xml
+1>    Processing: obj\Debug\res\layout\main.xml
+1>    Processing: obj\Debug\res\values\strings.xml
+1>    Processing: obj\Debug\res\values\theme.xml
+1>C:\Users\Jane\Documents\xamarin\Projects\NZWeatherApp\NZWeatherApp\Resources\layout\GPS.axml(2): error APT0000: String types not allowed (at 'layout_marginLeft' with value '40dp0').
+========== Build: 0 succeeded, 1 failed, 0 up-to-date, 0 skipped ==========
+========== Deploy: 0 succeeded, 0 failed, 0 skipped ==========
+Build started.
+  Processing: obj\Debug\res\layout\gps.xml
+  Processing: obj\Debug\res\layout\main.xml
+  Processing: obj\Debug\res\values\strings.xml
+  Processing: obj\Debug\res\values\theme.xml
+C:\Program Files (x86)\Android\android-sdk\build-tools\23.0.1\aapt.exe package -f -m -M C:\Users\Jane\AppData\Local\Temp
+dlnicxq.lpy\manifest\AndroidManifest.xml -J C:\Users\Jane\AppData\Local\Temp
+dlnicxq.lpy --custom-package nzweatherapp.nzweatherapp -F C:\Users\Jane\AppData\Local\Temp
+dlnicxq.lpy\resources.apk.bk -S obj\Debug\res -I "C:\Program Files (x86)\Android\android-sdk\platforms\android-23\android.jar" --auto-add-overlay 
+String types not allowed (at 'layout_marginLeft' with value '40dp0').
+Build FAILED.
+Build started.
+  Processing: obj\Debug\res\layout\gps.xml
+  Processing: obj\Debug\res\layout\main.xml
+  Processing: obj\Debug\res\values\strings.xml
+  Processing: obj\Debug\res\values\theme.xml
+C:\Program Files (x86)\Android\android-sdk\build-tools\23.0.1\aapt.exe package -f -m -M C:\Users\Jane\AppData\Local\Temp
+dlnicxq.lpy\manifest\AndroidManifest.xml -J C:\Users\Jane\AppData\Local\Temp
+dlnicxq.lpy --custom-package nzweatherapp.nzweatherapp -F C:\Users\Jane\AppData\Local\Temp
+dlnicxq.lpy\resources.apk.bk -S obj\Debug\res -I "C:\Program Files (x86)\Android\android-sdk\platforms\android-23\android.jar" --auto-add-overlay 
+String types not allowed (at 'layout_marginLeft' with value '40dp0').
+Build FAILED.
+

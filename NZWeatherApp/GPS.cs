@@ -26,7 +26,8 @@ namespace NZWeatherApp
         private Button btnLocalWeather;
         private EditText txtLat;
         private EditText txtLong;
-       
+        private TextView tvLatlbl;
+        private TextView tvLonglbl;
         private TextView tvLocationlbl;
         private TextView tvTemplbl;
         private TextView tvHumiditylbl;
@@ -36,6 +37,7 @@ namespace NZWeatherApp
         private string Lat;
         private string Long;
         private string locationProvider;
+
         
         public string URL { get; set; }
 
@@ -51,8 +53,8 @@ namespace NZWeatherApp
             // Get the latitude/longitude EditBox and button resources:
             //Link in all the different components
             //var root = JsonConvert.DeserializeObject<RootObject>(TempDataJson);
-           txtLat = FindViewById<EditText>(Resource.Id.txtLat);
-             txtLong = FindViewById<EditText>(Resource.Id.txtLong);
+           tvLatlbl = FindViewById<TextView>(Resource.Id.tvLatlbl);
+             tvLonglbl = FindViewById<TextView>(Resource.Id.tvLonglbl);
            
             tvLocationlbl = FindViewById<TextView>(Resource.Id.tvLocationlbl);
             tvTemplbl = FindViewById<TextView>(Resource.Id.tvTemplbl);
@@ -175,8 +177,8 @@ namespace NZWeatherApp
            // Toast.MakeText(this, "Lat " + Lat + "Lon " + Long, ToastLength.Long).Show();
             //json  http://api.worldweatheronline.com/free/v1/weather.ashx?q=-43.526429,172.637637&format=json&num_of_days=1&key=4da7nmph2t6yb76hckfbe4ae
             //xml  http://api.worldweatheronline.com/free/v1/weather.ashx?q=" & myGPS.Lat & "," & myGPS.Lon & "&format=xml&num_of_days=1&key=4da7nmph2t6yb76hckfbe4ae
-            txtLat.Text =  Lat;
-            txtLong.Text =  Long; // just so we know it exists
+            tvLatlbl.Text = "Latitude = " + Lat;
+            tvLonglbl.Text =  "Longitude = " + Long; // just so we know it exists
             //txtLocation.Text = "Lat " + Lat + "Long " + Long;
             //FullText.TextSize = 30;
 
