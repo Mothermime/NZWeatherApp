@@ -5,8 +5,31 @@
     android:layout_height="fill_parent">
     <LinearLayout
         android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:text="Get Weather"
+            android:id="@+id/btnGetGPSWeather"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="155.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="2" />
+        <Button
+            android:text="City weather"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="155.5dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnLocalWeather"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="2" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
         android:id="@+id/longSection"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,7 +37,7 @@
             android:text="Enter Longitude"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="140dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:gravity="right"
             android:id="@+id/tvLonglbl" />
         <EditText
@@ -27,7 +50,6 @@
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -51,32 +73,10 @@
         android:orientation="horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:text="Get Weather"
-            android:id="@+id/btnGetGPSWeather"
-            android:gravity="center_horizontal"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp" />
-        <Button
-            android:text="City weather"
-            android:layout_width="155.5dp"
-            android:layout_height="match_parent"
-            android:id="@+id/btnLocalWeather"
-            android:layout_marginLeft="10dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/locSection"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp">
         <TextView
@@ -85,10 +85,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tvLocationlbl" />
-        <EditText
-            android:layout_width="208.5dp"
-            android:layout_height="42.5dp"
-            android:id="@+id/txtLocation" />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -99,7 +95,7 @@
         android:id="@+id/condSection"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp">
         <TextView
             android:text="Conditions"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -114,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tempSection"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp">
         <TextView
@@ -133,7 +129,7 @@
         android:id="@+id/humiditSection"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp">
         <TextView
             android:text="Humidity"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -148,7 +144,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/scrollView1">
         <TextView
-            android:text="Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

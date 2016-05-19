@@ -26,11 +26,11 @@ namespace NZWeatherApp
         private Button btnLocalWeather;
         private EditText txtLat;
         private EditText txtLong;
-        private EditText txtLocation;
+       
         private TextView tvLocationlbl;
         private TextView tvTemplbl;
         private TextView tvHumiditylbl;
-        private TextView Conditions;
+        private TextView tvConditionslbl;
         private TextView FullText;
         private LocationManager locMgr;
         private string Lat;
@@ -53,21 +53,25 @@ namespace NZWeatherApp
             //var root = JsonConvert.DeserializeObject<RootObject>(TempDataJson);
            txtLat = FindViewById<EditText>(Resource.Id.txtLat);
              txtLong = FindViewById<EditText>(Resource.Id.txtLong);
-           txtLocation = FindViewById<EditText>(Resource.Id.txtLocation);
+           
             tvLocationlbl = FindViewById<TextView>(Resource.Id.tvLocationlbl);
             tvTemplbl = FindViewById<TextView>(Resource.Id.tvTemplbl);
-            Conditions = FindViewById<TextView>(Resource.Id.tvConditionslbl);
+            tvConditionslbl = FindViewById<TextView>(Resource.Id.tvConditionslbl);
             tvHumiditylbl = FindViewById<TextView>(Resource.Id.tvHumiditylbl);
             FullText = FindViewById<TextView>(Resource.Id.FullText);
 
             // LocationManager locMgr;
             btnGetGPSWeather = FindViewById<Button>(Resource.Id.btnGetGPSWeather);
             btnLocalWeather = FindViewById<Button>(Resource.Id.btnLocalWeather);
-            // btnLocalWeather.Click += btnLocalWeather_Click;
+             btnLocalWeather.Click += btnLocalWeather_Click;
             btnGetGPSWeather.Click += btnGetGPSWeather_Click;
             InitializeLocationManager();
           
     }
+        private void btnLocalWeather_Click(object sender, EventArgs e)
+        {
+            Finish();
+        }
 
         private async void btnGetGPSWeather_Click(object sender, EventArgs e)
         {
@@ -92,7 +96,7 @@ namespace NZWeatherApp
                 {
                     deviceAddress.AppendLine(address.GetAddressLine(i));
                 }
-                FullText.Text = deviceAddress.ToString();
+                tvLocationlbl.Text = deviceAddress.ToString();
                 FullText.TextSize = 20;
             }
             else
@@ -238,10 +242,12 @@ namespace NZWeatherApp
             //then we pass out the data into the classes we want to use. Its coming out as a list, so we get the first entry [0]
             CurrentCondition currentCondition = root.data.current_condition[0];
             Weather weather = root.data.weather[0];
-
+           
             //then we can do whatever we like with it. 
-            FullText.Text = "Current Temp = " + currentCondition.temp_C +"Min " + weather.tempMinC + " Max " + weather.tempMaxC + " Wind " + currentCondition.windspeedKmph;
-
+            FullText.Text =  " Wind = " + currentCondition.windspeedKmph + "kph" + "  Cloud cover = " + currentCondition.cloudcover + "   Wind direction = " + currentCondition.winddir16Point + "  Rainfall = " + currentCondition.precipMM;
+            tvHumiditylbl.Text = "Humidity = " + currentCondition.humidity;
+            tvTemplbl.Text = "Current temperature = " + currentCondition.temp_C  + "     Min " + weather.tempMinC + "  Max " + weather.tempMaxC;
+            tvConditionslbl.Text = "Visibility = " + currentCondition.visibility;
             //Can we put HTML in a label?  https://forums.xamarin.com/discussion/56484/need-to-put-htmlinto-a-label           
             //  AllText.TextFormatted = Html.FromHtml("<ul>Current Temp = " + currentCondition.temp_C + "</ul>");        
 
@@ -252,7 +258,7 @@ namespace NZWeatherApp
         }  
 
         }
-    }
+}
 
     //// When the user clicks the button ... 
         //btnGetWeather.Click += async (sender, e) =>
@@ -280,45 +286,43 @@ namespace NZWeatherApp
         //        }
         //}
 
-    //} private void btnLocalWeather_Click(object sender, EventArgs e)
-    //    {
-    //        Finish();
-    //    }
-    //potentially useful code
-    //[Activity(Label = "GPSApp", MainLauncher = true, Icon = "@drawable/icon")]
-    //public class MainActivity : Activity, ILocationListener
-    //{
-    //    Location _currentLocation;
-    //    LocationManager _locationManager;
+    
+ 
+//potentially useful code
+//[Activity(Label = "GPSApp", MainLauncher = true, Icon = "@drawable/icon")]
+//public class MainActivity : Activity, ILocationListener
+//{
+//    Location _currentLocation;
+//    LocationManager _locationManager;
 
-    //    TextView _locationText;
-    //    TextView _addressText;
-    //    TextView _remarksText;
-    //    string _locationProvider;
-    //    const string _sourceAddress = "The Link, Cebu IT Park, Jose Maria del Mar St,Lahug, Cebu City, 6000 Cebu";
+//    TextView _locationText;
+//    TextView _addressText;
+//    TextView _remarksText;
+//    string _locationProvider;
+//    const string _sourceAddress = "The Link, Cebu IT Park, Jose Maria del Mar St,Lahug, Cebu City, 6000 Cebu";
 
-    //    GPSServiceBinder binder;
-    //    GPSServiceConnection gpsServiceConnection;
-    //    Intent gpsServiceIntent;
-    //    protected override void OnCreate(Bundle bundle)
-    //    {
-    //        base.OnCreate(bundle);
-    //        SetContentView(Resource.Layout.Main);
+//    GPSServiceBinder binder;
+//    GPSServiceConnection gpsServiceConnection;
+//    Intent gpsServiceIntent;
+//    protected override void OnCreate(Bundle bundle)
+//    {
+//        base.OnCreate(bundle);
+//        SetContentView(Resource.Layout.Main);
 
-    //        _addressText = FindViewById<TextView>(Resource.Id.txtAddress);
-    //        _locationText = FindViewById<TextView>(Resource.Id.txtLocation);
-    //        _remarksText = FindViewById<TextView>(Resource.Id.txtRemarks);
+//        _addressText = FindViewById<TextView>(Resource.Id.txtAddress);
+//        _locationText = FindViewById<TextView>(Resource.Id.txtLocation);
+//        _remarksText = FindViewById<TextView>(Resource.Id.txtRemarks);
 
-    //        //Initialising the LocationManager to provide access to the system location services.
-    //        //The LocationManager class will listen for GPS updates from the device and notify the application by way of events. 
-    //        _locationManager = (LocationManager)GetSystemService(LocationService);
+//        //Initialising the LocationManager to provide access to the system location services.
+//        //The LocationManager class will listen for GPS updates from the device and notify the application by way of events. 
+//        _locationManager = (LocationManager)GetSystemService(LocationService);
 
-    //        //Define a Criteria for the best location provider
-    //        Criteria criteriaForLocationService = new Criteria
-    //        {
-    //            //A constant indicating an approximate accuracy
-    //            Accuracy = Accuracy.Coarse,
-    //            PowerRequirement = Power.Medium
-      
-   
-        
+//        //Define a Criteria for the best location provider
+//        Criteria criteriaForLocationService = new Criteria
+//        {
+//            //A constant indicating an approximate accuracy
+//            Accuracy = Accuracy.Coarse,
+//            PowerRequirement = Power.Medium
+
+
+
